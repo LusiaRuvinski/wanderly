@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -35,13 +36,21 @@ fun MyTripsScreen(
 ) {
     val db = Firebase.firestore
     val context = LocalContext.current
+    val currentUser = FirebaseAuth.getInstance().currentUser
     var trips by remember { mutableStateOf<List<Trip>>(emptyList()) }
     var isLoading by remember { mutableStateOf(true) }
     var showDialog by remember { mutableStateOf(false) }
     var tripToDelete by remember { mutableStateOf<Trip?>(null) }
 
     LaunchedEffect(Unit) {
+        if (currentUser == null) {
+            Toast.makeText(context, "User not logged in", Toast.LENGTH_SHORT).show()
+            isLoading = false
+            return@LaunchedEffect
+        }
+
         db.collection("trips")
+            .whereEqualTo("userId", currentUser.uid) // ✅ סינון לפי המשתמש
             .get()
             .addOnSuccessListener { result ->
                 trips = result.map { doc ->
@@ -63,7 +72,7 @@ fun MyTripsScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFFFEBEE)) // רקע ורוד בייבי
+            .background(Color(0xFFFFEBEE))
             .padding(16.dp),
         contentAlignment = Alignment.Center
     ) {
@@ -84,7 +93,7 @@ fun MyTripsScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(vertical = 8.dp)
-                                .clickable { onTripClick(trip.id) }, // מעבר לפרטי טיול
+                                .clickable { onTripClick(trip.id) },
                             colors = CardDefaults.cardColors(containerColor = Color.White),
                             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
                         ) {

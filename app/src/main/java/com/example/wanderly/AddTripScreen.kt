@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -27,7 +28,7 @@ fun AddTripScreen(onTripAdded: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFE1BEE7)) // רקע לילך
+            .background(Color(0xFFE1BEE7))
             .padding(24.dp),
         contentAlignment = Alignment.Center
     ) {
@@ -80,20 +81,27 @@ fun AddTripScreen(onTripAdded: () -> Unit) {
                         return@Button
                     }
 
+                    val currentUser = FirebaseAuth.getInstance().currentUser
+                    if (currentUser == null) {
+                        Toast.makeText(context, "User not logged in", Toast.LENGTH_SHORT).show()
+                        return@Button
+                    }
+
                     isSaving = true
 
                     val trip = hashMapOf(
                         "name" to name.text,
                         "destination" to destination.text,
                         "startDate" to startDate.text,
-                        "endDate" to endDate.text
+                        "endDate" to endDate.text,
+                        "userId" to currentUser.uid // ✅ שמירת בעלות הטיול
                     )
 
                     Firebase.firestore.collection("trips")
                         .add(trip)
                         .addOnSuccessListener {
                             Toast.makeText(context, "Trip added successfully", Toast.LENGTH_SHORT).show()
-                            onTripAdded() // ניווט רק אחרי ההודעה
+                            onTripAdded()
                         }
                         .addOnFailureListener {
                             Toast.makeText(context, "Failed to add trip", Toast.LENGTH_SHORT).show()
@@ -108,4 +116,3 @@ fun AddTripScreen(onTripAdded: () -> Unit) {
         }
     }
 }
-

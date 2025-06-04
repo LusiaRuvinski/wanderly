@@ -19,6 +19,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -36,21 +37,27 @@ fun TripFilesScreen(
 ) {
     val db = Firebase.firestore
     val context = LocalContext.current
+    val currentUser = FirebaseAuth.getInstance().currentUser
     var files by remember { mutableStateOf<List<TripFile>>(emptyList()) }
     var isLoading by remember { mutableStateOf(true) }
 
-    // For rename dialog
     var showRenameDialog by remember { mutableStateOf(false) }
     var selectedFileForRename by remember { mutableStateOf<TripFile?>(null) }
     var newFileName by remember { mutableStateOf(TextFieldValue("")) }
 
-    // For delete confirmation
     var showDeleteDialog by remember { mutableStateOf(false) }
     var selectedFileForDelete by remember { mutableStateOf<TripFile?>(null) }
 
     fun loadFiles() {
+        if (currentUser == null) {
+            Toast.makeText(context, "User not logged in", Toast.LENGTH_SHORT).show()
+            isLoading = false
+            return
+        }
+
         db.collection("tripDocuments")
             .whereEqualTo("tripId", tripId)
+            .whereEqualTo("userId", currentUser.uid)
             .get()
             .addOnSuccessListener { result ->
                 files = result.map { doc ->
@@ -134,7 +141,6 @@ fun TripFilesScreen(
         }
     }
 
-    // Rename Dialog
     if (showRenameDialog && selectedFileForRename != null) {
         AlertDialog(
             onDismissRequest = { showRenameDialog = false },
@@ -168,7 +174,6 @@ fun TripFilesScreen(
         )
     }
 
-    // Delete Confirmation Dialog
     if (showDeleteDialog && selectedFileForDelete != null) {
         AlertDialog(
             onDismissRequest = { showDeleteDialog = false },

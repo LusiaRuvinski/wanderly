@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.example.wanderly.uriToFile
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import java.util.*
@@ -24,6 +24,7 @@ import java.util.*
 fun UploadDocumentScreen(tripId: String, onBack: () -> Unit) {
     val context = LocalContext.current
     val firestore = Firebase.firestore
+    val currentUser = FirebaseAuth.getInstance().currentUser
     var selectedFileUri by remember { mutableStateOf<Uri?>(null) }
     var customFileName by remember { mutableStateOf("") }
     var isUploading by remember { mutableStateOf(false) }
@@ -76,6 +77,11 @@ fun UploadDocumentScreen(tripId: String, onBack: () -> Unit) {
 
                 Button(
                     onClick = {
+                        if (currentUser == null) {
+                            Toast.makeText(context, "User not logged in", Toast.LENGTH_SHORT).show()
+                            return@Button
+                        }
+
                         isUploading = true
                         val file = uriToFile(context, uri)
                         val finalFileName = if (customFileName.isNotBlank()) customFileName else file.name
@@ -86,7 +92,8 @@ fun UploadDocumentScreen(tripId: String, onBack: () -> Unit) {
                                     "tripId" to tripId,
                                     "fileName" to finalFileName,
                                     "downloadUrl" to url,
-                                    "timestamp" to System.currentTimeMillis()
+                                    "timestamp" to System.currentTimeMillis(),
+                                    "userId" to currentUser.uid // ✅ מוסיפים שדה בעלות
                                 )
                                 firestore.collection("tripDocuments")
                                     .add(fileData)
