@@ -18,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import java.util.*
 
 @Composable
 fun UploadDocumentScreen(tripId: String, onBack: () -> Unit) {
@@ -93,7 +92,7 @@ fun UploadDocumentScreen(tripId: String, onBack: () -> Unit) {
                                     "fileName" to finalFileName,
                                     "downloadUrl" to url,
                                     "timestamp" to System.currentTimeMillis(),
-                                    "userId" to currentUser.uid // ✅ מוסיפים שדה בעלות
+                                    "userId" to currentUser.uid
                                 )
                                 firestore.collection("tripDocuments")
                                     .add(fileData)

@@ -8,7 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 
 @Composable
-fun AppNavigation() {
+fun AppNavigation(onLogout: () -> Unit = {}) {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = "menu") {
@@ -20,11 +20,19 @@ fun AppNavigation() {
         }
 
         composable("profile") {
-            ProfileScreen(onBackToMenu = {
-                navController.navigate("menu") {
-                    popUpTo("menu") { inclusive = true }
+            ProfileScreen(
+                onBackToMenu = {
+                    navController.navigate("menu") {
+                        popUpTo("menu") { inclusive = true }
+                    }
+                },
+                onLogout = {
+                    onLogout()
+                    navController.navigate("menu") {
+                        popUpTo("menu") { inclusive = true }
+                    }
                 }
-            })
+            )
         }
 
         composable("addTrip") {
@@ -75,7 +83,7 @@ fun AppNavigation() {
             }
         }
 
-        // מסך בחירת טיול לצורך העלאה
+
         composable("upload") {
             SelectTripForUploadScreen(
                 onTripSelected = { tripId ->
@@ -89,7 +97,7 @@ fun AppNavigation() {
             )
         }
 
-        // מסך העלאת קובץ לטיול מסוים
+
         composable(
             "upload/{tripId}",
             arguments = listOf(navArgument("tripId") { type = NavType.StringType })
@@ -100,7 +108,7 @@ fun AppNavigation() {
             }
         }
 
-        // מסך צפייה בקבצים שהועלו לטיול מסוים
+
         composable(
             "tripFiles/{tripId}",
             arguments = listOf(navArgument("tripId") { type = NavType.StringType })

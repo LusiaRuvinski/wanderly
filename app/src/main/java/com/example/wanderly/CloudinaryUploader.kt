@@ -1,12 +1,10 @@
 package com.example.wanderly
 
-import android.util.Base64
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import java.io.IOException
-import java.util.*
 
 object CloudinaryUploader {
 

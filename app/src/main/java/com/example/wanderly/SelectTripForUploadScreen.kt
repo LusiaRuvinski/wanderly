@@ -54,7 +54,7 @@ fun SelectTripForUploadScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFF1F8E9)) // רקע ירקרק
+            .background(Color(0xFFF1F8E9))
             .padding(16.dp)
     ) {
         if (isLoading) {

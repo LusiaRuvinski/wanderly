@@ -35,7 +35,7 @@ fun MenuScreen(onNavigate: (String) -> Unit) {
                 .padding(top = 48.dp)
                 .fillMaxWidth()
         ) {
-            // תמונת הגלובוס
+
             Image(
                 painter = painterResource(id = R.drawable.globe),
                 contentDescription = "Globe Icon",
@@ -44,7 +44,7 @@ fun MenuScreen(onNavigate: (String) -> Unit) {
                     .padding(bottom = 16.dp)
             )
 
-            // כותרת
+
             Text(
                 text = "Menu",
                 fontSize = 40.sp,
@@ -53,7 +53,7 @@ fun MenuScreen(onNavigate: (String) -> Unit) {
                 modifier = Modifier.padding(bottom = 32.dp)
             )
 
-            // כפתורים
+
             MenuButton("My Trips", Icons.Default.List) { onNavigate("trips") }
             MenuButton("Upload", Icons.Default.Send) { onNavigate("upload") }
             MenuButton("Add Trip", Icons.Default.Add) { onNavigate("addTrip") }

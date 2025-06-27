@@ -50,7 +50,7 @@ fun MyTripsScreen(
         }
 
         db.collection("trips")
-            .whereEqualTo("userId", currentUser.uid) // ✅ סינון לפי המשתמש
+            .whereEqualTo("userId", currentUser.uid)
             .get()
             .addOnSuccessListener { result ->
                 trips = result.map { doc ->

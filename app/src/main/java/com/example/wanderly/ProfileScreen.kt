@@ -24,10 +24,12 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
-import java.util.*
 
 @Composable
-fun ProfileScreen(onBackToMenu: () -> Unit) {
+fun ProfileScreen(
+    onBackToMenu: () -> Unit,
+    onLogout: () -> Unit
+) {
     val user = FirebaseAuth.getInstance().currentUser
     val context = LocalContext.current
 
@@ -50,7 +52,6 @@ fun ProfileScreen(onBackToMenu: () -> Unit) {
                         if (task.isSuccessful) {
                             photoUrl = url
                             Log.d("ProfileImage", "Uploaded photo URL: $photoUrl")
-
                             Toast.makeText(context, "Profile updated", Toast.LENGTH_SHORT).show()
                         }
                         isUploading = false
@@ -70,7 +71,11 @@ fun ProfileScreen(onBackToMenu: () -> Unit) {
             .padding(24.dp),
         contentAlignment = Alignment.Center
     ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+
             if (photoUrl != null) {
                 Image(
                     painter = rememberAsyncImagePainter(photoUrl),
@@ -103,16 +108,33 @@ fun ProfileScreen(onBackToMenu: () -> Unit) {
                 CircularProgressIndicator()
             }
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(48.dp))
+
+
+            val buttonModifier = Modifier
+                .fillMaxWidth(0.8f)
+                .height(48.dp)
+                .padding(vertical = 4.dp)
 
             Button(
                 onClick = onBackToMenu,
-                modifier = Modifier
-                    .fillMaxWidth(0.8f)
-                    .height(48.dp),
-                shape = MaterialTheme.shapes.medium
+                modifier = buttonModifier,
+                shape = MaterialTheme.shapes.medium,
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF233E73))
             ) {
-                Text("Back to Menu")
+                Text("Back to Menu", color = Color.White)
+            }
+
+            Button(
+                onClick = {
+                    FirebaseAuth.getInstance().signOut()
+                    onLogout()
+                },
+                modifier = buttonModifier,
+                shape = MaterialTheme.shapes.medium,
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF233E73))
+            ) {
+                Text("Sign Out", color = Color.White)
             }
         }
     }

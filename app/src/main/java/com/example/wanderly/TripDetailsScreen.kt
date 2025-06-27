@@ -23,7 +23,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
 
 @Composable
 fun TripDetailsScreen(
@@ -34,7 +33,6 @@ fun TripDetailsScreen(
 ) {
     val context = LocalContext.current
     val db = Firebase.firestore
-    val storage = FirebaseStorage.getInstance()
 
     var trip by remember { mutableStateOf<Trip?>(null) }
     var note by remember { mutableStateOf("") }

@@ -1,4 +1,3 @@
-// MainActivity.kt
 package com.example.wanderly
 
 import android.os.Bundle
@@ -6,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.*
 import com.example.wanderly.ui.theme.WanderlyTheme
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,7 +13,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             WanderlyTheme {
                 var showWelcome by remember { mutableStateOf(true) }
-                var isAuthenticated by remember { mutableStateOf(false) }
+
+                var isAuthenticated by remember {
+                    mutableStateOf(FirebaseAuth.getInstance().currentUser != null)
+                }
 
                 when {
                     showWelcome -> WelcomeScreen {
@@ -22,7 +25,9 @@ class MainActivity : ComponentActivity() {
                     !isAuthenticated -> AuthScreen {
                         isAuthenticated = true
                     }
-                    else -> AppNavigation()
+                    else -> AppNavigation(
+                        onLogout = { isAuthenticated = false }
+                    )
                 }
             }
         }

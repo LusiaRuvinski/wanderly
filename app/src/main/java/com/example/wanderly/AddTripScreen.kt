@@ -94,7 +94,7 @@ fun AddTripScreen(onTripAdded: () -> Unit) {
                         "destination" to destination.text,
                         "startDate" to startDate.text,
                         "endDate" to endDate.text,
-                        "userId" to currentUser.uid // ✅ שמירת בעלות הטיול
+                        "userId" to currentUser.uid
                     )
 
                     Firebase.firestore.collection("trips")

@@ -41,7 +41,7 @@ fun TripMapScreen(destination: String, onBack: () -> Unit) {
             modifier = Modifier.fillMaxSize()
         )
 
-        // כפתור חזרה
+
         IconButton(
             onClick = onBack,
             modifier = Modifier
