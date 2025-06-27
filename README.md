@@ -57,6 +57,17 @@
 Final project for the Mobile App Development course (Kotlin-based).
 
 ---
+## 📸 Screenshots
+
+<img src="263cb7a3-6a14-498e-81d4-339d2326c3e2.jpeg" width="300"/>
+<img src="47c595a5-59dd-4d82-b12d-47ddb87a2dff2.jpeg" width="300"/>
+<img src="4b9cc3a6-d3e6-48f1-8c66-2b1d238f8dd1.jpeg" width="300"/>
+<img src="58c7d5df-0f6f-4bec-be1a-fc51adb627e7.jpeg" width="300"/>
+<img src="8b5f515e-10f5-4b28-8131-d7f3f0e30dca.jpeg" width="300"/>
+<img src="b1feda22-850e-4cd2-819c-a2f3c45810a2.jpeg" width="300"/>
+<img src="ba2b5a11-5a23-407e-84d4-7f3da1ed9f31.jpeg" width="300"/>
+<img src="dcb22644-0901-4fa4-a23c-d4538e4fe08e.jpeg" width="300"/>
+<img src="e8d02939-8879-4cef-9ab5-793c3d2ed478.jpeg" width="300"/>
 
 ## 🎬 Demo Video
 
