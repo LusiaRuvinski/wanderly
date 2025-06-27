@@ -16,7 +16,10 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 @Composable
-fun AddTripScreen(onTripAdded: () -> Unit) {
+fun AddTripScreen(
+    onTripAdded: () -> Unit,
+    onBackToMenu: () -> Unit
+) {
     val context = LocalContext.current
 
     var name by remember { mutableStateOf(TextFieldValue("")) }
@@ -24,6 +27,8 @@ fun AddTripScreen(onTripAdded: () -> Unit) {
     var startDate by remember { mutableStateOf(TextFieldValue("")) }
     var endDate by remember { mutableStateOf(TextFieldValue("")) }
     var isSaving by remember { mutableStateOf(false) }
+
+    val purpleDark = Color(0xFF7B1FA2)
 
     Box(
         modifier = Modifier
@@ -109,9 +114,20 @@ fun AddTripScreen(onTripAdded: () -> Unit) {
                         }
                 },
                 modifier = Modifier.fillMaxWidth(),
-                enabled = !isSaving
+                enabled = !isSaving,
+                colors = ButtonDefaults.buttonColors(containerColor = purpleDark)
             ) {
-                Text("Add")
+                Text("Add", color = Color.White)
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Button(
+                onClick = onBackToMenu,
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(containerColor = purpleDark)
+            ) {
+                Text("Back to Menu", color = Color.White)
             }
         }
     }

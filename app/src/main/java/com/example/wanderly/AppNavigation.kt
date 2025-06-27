@@ -35,12 +35,20 @@ fun AppNavigation(onLogout: () -> Unit = {}) {
             )
         }
 
+
         composable("addTrip") {
-            AddTripScreen(onTripAdded = {
-                navController.navigate("menu") {
-                    popUpTo("menu") { inclusive = true }
+            AddTripScreen(
+                onTripAdded = {
+                    navController.navigate("menu") {
+                        popUpTo("menu") { inclusive = true }
+                    }
+                },
+                onBackToMenu = {
+                    navController.navigate("menu") {
+                        popUpTo("menu") { inclusive = true }
+                    }
                 }
-            })
+            )
         }
 
         composable("trips") {
@@ -83,7 +91,6 @@ fun AppNavigation(onLogout: () -> Unit = {}) {
             }
         }
 
-
         composable("upload") {
             SelectTripForUploadScreen(
                 onTripSelected = { tripId ->
@@ -97,7 +104,6 @@ fun AppNavigation(onLogout: () -> Unit = {}) {
             )
         }
 
-
         composable(
             "upload/{tripId}",
             arguments = listOf(navArgument("tripId") { type = NavType.StringType })
@@ -107,7 +113,6 @@ fun AppNavigation(onLogout: () -> Unit = {}) {
                 navController.popBackStack()
             }
         }
-
 
         composable(
             "tripFiles/{tripId}",
