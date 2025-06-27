@@ -70,5 +70,6 @@ Final project for the Mobile App Development course (Kotlin-based).
 <img src="e8d02939-8879-4cef-9ab5-793c3d2ed478.jpeg" width="300"/>
 
 ## 🎬 Demo Video
-
+ https://drive.google.com/file/d/1SLaQT0iSSdl0x_eQYX7Nc6BOtt6sSuje/view?usp=sharing
+ 
 
