@@ -27,14 +27,7 @@
 
 ---
 
-## 🧪 How to Run
 
-1. Open the project in **Android Studio**
-2. Ensure your `google-services.json` file is correctly linked to Firebase
-3. Add your **Cloudinary credentials** to `CloudinaryUploader.kt` if needed
-4. Run on an emulator or a real Android device
-
----
 
 ## 📂 Main Screens
 
